@@ -11,12 +11,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.InetAddress;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 /**
  *
  * @author youan
  */
 public class ExperimentServlet extends HttpServlet {
+
+    public String adrIp;
+    public String nomClient;
+    public String requet;
+    private Object IP;
+   
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,8 +39,15 @@ public class ExperimentServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+       InetAddress IP = InetAddress.getLocalHost();
+       String ipad = IP.getHostAddress();
+       nomClient=request.getLocalAddr();
+       
+       
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+         
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -38,9 +55,27 @@ public class ExperimentServlet extends HttpServlet {
             out.println("<title>Servlet ExperimentServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ExperimentServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1> Ma première servlet</h1>");
+            out.println("<h2>Informations concernant l'adresse IP et le navigateur utilisé par le client :</h2>");
+            out.println("<p>l`adresse IP du client est :"+ipad+"</p>");
+            out.println("<p> Navigateur du client :" + request.getServerName()+"</p>");
+            out.println("<h2>Informations concernant la requete du client client :</h2>");
+            out.println("<p> Méthode : "+request.getMethod()+"</p>");
+            out.println("<p> Protocole : "+request.getProtocol()+"</p>");
+            out.println("<p> URI demandé : "+request.getRequestURI()+"</p>");
+            out.println("<h2>Information concernant l'entête de la requête :</h2>");
+            out.println("<p> Host : "+request.getServerName()+" : "+request.getServerPort()+"</p>");
+            out.println("<p> User-agent : </p>");
+            out.println("<p> accept : </p>");
+            out.println("<p> accept-language : "+request.getLocale()+"</p>");
+            out.println("<p> accept-encoding : "+request.getCharacterEncoding()+" </p>");
+            out.println("<p> accept-charset : </p>");
+            out.println("<p> keep-alive : </p>");
+            out.println("<p> connection : </p>");
             out.println("</body>");
             out.println("</html>");
+            
+           
         }
     }
 
