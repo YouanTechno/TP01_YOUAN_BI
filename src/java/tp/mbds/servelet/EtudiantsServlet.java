@@ -11,22 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.InetAddress;
-import javax.servlet.*;
-import javax.servlet.http.*;
 
 /**
  *
  * @author youan
  */
-public class ExperimentServlet extends HttpServlet {
-
-    public String adrIp;
-    public String nomClient;
-    public String requet;
-    private Object IP;
-   
+public class EtudiantsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,43 +29,27 @@ public class ExperimentServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-       InetAddress IP = InetAddress.getLocalHost();
-       String ipad = IP.getHostAddress();
-       nomClient=request.getLocalAddr();
-       
-       
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-         
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ExperimentServlet</title>");            
+            out.println("<title>Servlet EtudiantsServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1> Ma première servlet</h1>");
-            out.println("<h2>Informations concernant l'adresse IP et le navigateur utilisé par le client :</h2>");
-            out.println("<p>l`adresse IP du client est :"+ipad+"</p>");
-            out.println("<p>Navigateur : "+request.getHeader("user-agent")+"</p>");
-            out.println("<h2>Informations concernant la requete du client client :</h2>");
-            out.println("<p> Méthode : "+request.getMethod()+"</p>");
-            out.println("<p> Protocole : "+request.getProtocol()+"</p>");
-            out.println("<p> URI demandé : "+request.getRequestURI()+"</p>");
-            out.println("<h2>Information concernant l'entête de la requête :</h2>");
-            out.println("<p> Host : "+request.getServerName()+" : "+request.getServerPort()+"</p>");
-            out.println("<p>user-agent : "+request.getHeader("user-agent")+"</p>");
-             out.println("<p>accept : "+request.getHeader("accept")+"</p>");
-            out.println("<p>accept-language : "+request.getHeader("accept-language")+"</p>");
-            out.println("<p>accept-encoding : "+request.getHeader("accept-encoding")+"</p>");
-            out.println("<p>accept-charset : "+ request.getHeader("accept-charset")+"</p>");
-            out.println("<p>keep-alive : "+request.getHeader("keep-alive")+"</p>");
-             out.println("<p>connection : "+ request.getHeader("connection")+"</p>");
+            out.println("<h1>Formulaire étudiant </h1>");
+            out.println(" <form action=action_page.php>");
+            out.println("    <label for=fname>Nom :</label><br>");
+            out.println("    <input type=text id=fname name=fname><br><br>");
+            out.println("    <label for=lname>Prenom :</label><br>");
+            out.println("    <input type=text id=lname name=lname ><br><br>");
+            out.println("    <label for=lname>Email :</label><br>");
+            out.println("    <input type=text id=lname name=email ><br><br>");
+            out.println("    <input type=\"submit\" value=\"Sauvegarder\">");
+            out.println("</form>");
             out.println("</body>");
             out.println("</html>");
-            
-           
         }
     }
 
