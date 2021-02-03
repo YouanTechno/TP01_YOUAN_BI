@@ -5,12 +5,24 @@
  */
 package tp.mbds.servelet;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,8 +39,10 @@ public class EtudiantsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -37,17 +51,45 @@ public class EtudiantsServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet EtudiantsServlet</title>");            
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Formulaire étudiant </h1>");
-            out.println(" <form action=action_page.php>");
-            out.println("    <label for=fname>Nom :</label><br>");
-            out.println("    <input type=text id=fname name=fname><br><br>");
-            out.println("    <label for=lname>Prenom :</label><br>");
-            out.println("    <input type=text id=lname name=lname ><br><br>");
-            out.println("    <label for=lname>Email :</label><br>");
-            out.println("    <input type=text id=lname name=email ><br><br>");
-            out.println("    <input type=\"submit\" value=\"Sauvegarder\">");
-            out.println("</form>");
+            out.println("<body >");
+             out.println("<h1>LISTE DES ETUDIANTS</h1>");
+            try{
+                
+                InputStream flux=new FileInputStream("etudiants.csv"); 
+                InputStreamReader lecture=new InputStreamReader(flux);
+                BufferedReader buff=new BufferedReader(lecture);
+                String ligne;
+                string nom ;
+                final String sep = ",";
+ 
+                out.println("<table border=1;style=\"color:red\">");
+                out.println("<TBODY >"); 
+                out.println("<tr>"); 
+                out.println("<td>NOM</td>");
+                out.println("<td>PRENOM</td>");
+                out.println("<td>EMAIL</td>");
+                out.println("</tr>");
+                while ((ligne=buff.readLine())!=null)
+                    {
+                        //out.println(ligne);
+                    out.println("<br>");
+                    String mots[] = ligne.split(sep);
+                    out.println("<tr>");
+                    for (int i = 0; i < mots.length; i++) {
+                        out.println("<td>");
+                        out.println("\t"+mots[i]+"\t");
+                        out.println("</td>");
+                    }
+                }
+                    out.println("</tr>");
+                    out.println("</TBODY>"); 
+                    out.println("</table>");
+                    buff.close(); 
+            }	
+            catch (Exception e)
+            {
+                System.out.println(e.toString());
+            }
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,8 +106,10 @@ public class EtudiantsServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         processRequest(request, response);
+        
+        
     }
 
     /**
@@ -79,7 +123,16 @@ public class EtudiantsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        //out.println(request.getParameter("nom"));
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String email = request.getParameter("email");
+        
+         enregistre(nom , prenom ,email,fichier);
+         doGet(request,response);
+         
     }
 
     /**
@@ -91,5 +144,23 @@ public class EtudiantsServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+        String fichier = "etudiants.csv";       
+        public static void enregistre(String nom, String prenom, String email,String fichier)
+        {
+            try
+           {
+            FileWriter filread = new FileWriter (fichier , true);
+            BufferedWriter bw = new  BufferedWriter(filread);
+            PrintWriter write = new PrintWriter (bw);
+            write.println(nom + ','+ prenom + ','+email );
+            write.flush();
+            write.close();
+
+           }
+          catch(Exception E)
+          {
+           }
+        }
 
 }

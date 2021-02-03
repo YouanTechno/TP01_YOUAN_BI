@@ -57,7 +57,7 @@ public class ExperimentServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1> Ma première servlet</h1>");
             out.println("<h2>Informations concernant l'adresse IP et le navigateur utilisé par le client :</h2>");
-            out.println("<p>l`adresse IP du client est :"+ipad+"</p>");
+            out.println("<p>l`adresse IP du client est :"+request.getRemoteAddr()+"</p>");
             out.println("<p>Navigateur : "+request.getHeader("user-agent")+"</p>");
             out.println("<h2>Informations concernant la requete du client client :</h2>");
             out.println("<p> Méthode : "+request.getMethod()+"</p>");
